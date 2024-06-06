@@ -26,6 +26,12 @@ public class BalloonBehavior : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        // When Ballon collide with the Astonaut
+        if (collision.gameObject.CompareTag("Astonaut"))
+        {
+            Destroy(gameObject);
+        }
+
         if(collision.gameObject.CompareTag("Balloon"))
         {
             if(collision.gameObject.GetComponent<BalloonBehavior>().serialNumber == serialNumber)
@@ -43,6 +49,12 @@ public class BalloonBehavior : MonoBehaviour
                 {
                     player.bringFairy = true;
                 }
+                // For Ballon having serailNumber 2 start the astaunaut PowerUp
+                else if(serialNumber == 2)
+                {
+                    player.bringAstonaut = true;
+                }
+
                 spawner.balloonNumber = serialNumber;
                 spawner.transform.position = transform.position;
                 spawner.shouldSpawnBalloon = true;

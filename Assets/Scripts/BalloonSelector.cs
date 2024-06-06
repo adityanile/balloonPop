@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BalloonSelector : MonoBehaviour
 {
-    [SerializeField] private GameObject[] balloons;
+    public GameObject[] balloons;
     [SerializeField] private SpriteRenderer indicator;
 
     public static GameObject selectedBalloon;
