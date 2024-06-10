@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -141,13 +142,16 @@ public class PlayerController : MonoBehaviour
     void FairyPowerup()
     {
         indicator.gameObject.SetActive(false);
-
+        blockMovement = true;
         currentFairy = Instantiate(fairy, fairyPos.position, Quaternion.identity, fairyPos);
 
-        Invoke("AfterFairyPowerUp", fairyTime);
+        StartCoroutine(AfterFairyPowerUp());
     }
-    void AfterFairyPowerUp()
+    IEnumerator AfterFairyPowerUp()
     {
+        yield return new WaitForSeconds(fairyTime);
+
+        blockMovement = false;
         ShowIndicator();
         Destroy(currentFairy);
     }

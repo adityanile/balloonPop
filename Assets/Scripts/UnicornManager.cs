@@ -29,16 +29,18 @@ public class UnicornManager : MonoBehaviour
         // Get Ramdomly how many targets to kill and then kill them
         killableTargets = GetTargetsIndex(HowManyToKill());
 
-        Invoke("KillSelectedTargets", killeAfterTime);
+        StartCoroutine(KillSelectedTargets());
     }
 
-    void KillSelectedTargets()
+    IEnumerator KillSelectedTargets()
     {
+        yield return new WaitForSeconds(killeAfterTime);
+
         if (targets.Length > 0)
         {
             foreach (var target in killableTargets)
             {
-                if (targets[target].gameObject)
+                if (targets[target])
                 {
                     Destroy(targets[target].gameObject);
                 }

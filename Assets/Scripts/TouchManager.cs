@@ -39,7 +39,7 @@ public class TouchManager : MonoBehaviour
                     Vector3 pos = Camera.main.ScreenToWorldPoint(lp);
 
                     transform.position = new Vector3(pos.x, transform.position.y, transform.position.z);
-                    balloonPosition.localPosition = new Vector3(pos.x * .5f, 0, 0);
+                    balloonPosition.localPosition = new Vector3(pos.x * 0.2f, 0, 0);
                     sr.flipX = balloonPosition.localPosition.x < 0;
 
                     // Restictions from falling down
