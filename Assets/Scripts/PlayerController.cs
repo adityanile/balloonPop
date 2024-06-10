@@ -29,6 +29,11 @@ public class PlayerController : MonoBehaviour
     private GameObject currentAstonaut;
     public float astoTime = 4f;
 
+    // Unicorn spawing managed here
+    [HideInInspector] public bool bringUnicorn = false;
+    public GameObject unicorn;
+    public Transform unicornSpawnPos;
+
     // This is checked before moving the player
     public bool blockMovement = false;
 
@@ -68,47 +73,6 @@ public class PlayerController : MonoBehaviour
             waitTime = 0;
         }
 
-        if (!blockMovement)
-        {
-            moveDirInp = Input.GetAxisRaw("Horizontal");
-
-            if (moveDirInp != 0)
-            {
-                transform.Translate(moveDirInp * moveSpeed * Time.deltaTime * transform.right);
-                balloonPosition.localPosition = new Vector3(moveDirInp * .5f, 0, 0);
-                sr.flipX = balloonPosition.localPosition.x < 0;
-            }
-
-            if (transform.position.x <= -1.5f)
-            {
-                Vector3 temp = transform.position;
-                temp.x = -1.5f;
-                transform.position = temp;
-            }
-            else if (transform.position.x >= 1.5f)
-            {
-                Vector3 temp = transform.position;
-                temp.x = 1.5f;
-                transform.position = temp;
-
-            }
-
-            // For development use on 
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                BalloonSelector.selectedBalloon = balloonSelector.balloons[2];
-                balloonSelector.ShowSelectedIndicator();
-            }
-
-
-            if (Input.GetMouseButtonDown(0) && BalloonSelector.selectedBalloon != null && canSpawnBalloon && !EventSystem.current.IsPointerOverGameObject())
-            {
-                Instantiate(BalloonSelector.selectedBalloon, balloonPosition.position, BalloonSelector.selectedBalloon.transform.rotation, balloonsParent);
-                canSpawnBalloon = false;
-                selector.SelectBalloon();
-            }
-        }
-
         indicator.color = BalloonSelector.selectedBalloon.GetComponent<BalloonBehavior>().balloonColor;
         if (shouldStartSpecialAttack1)
         {
@@ -132,6 +96,23 @@ public class PlayerController : MonoBehaviour
         {
             bringAstonaut = false;
             AstonautPowerUp();
+        }
+
+        if (bringUnicorn)
+        {
+            bringUnicorn = false;
+            UnicornPowerUp();
+        }
+    }
+    
+    // Spawn A Balloon
+    public void SpawnABalloon()
+    {
+        if (BalloonSelector.selectedBalloon != null && canSpawnBalloon && !EventSystem.current.IsPointerOverGameObject())
+        {
+            Instantiate(BalloonSelector.selectedBalloon, balloonPosition.position, BalloonSelector.selectedBalloon.transform.rotation, balloonsParent);
+            canSpawnBalloon = false;
+            selector.SelectBalloon();
         }
     }
 
@@ -185,6 +166,11 @@ public class PlayerController : MonoBehaviour
     {
         blockMovement = false;
         Destroy(currentAstonaut);
+    }
+
+    void UnicornPowerUp()
+    {
+        Instantiate(unicorn, unicornSpawnPos.position, Quaternion.identity, unicornSpawnPos);
     }
 
 }

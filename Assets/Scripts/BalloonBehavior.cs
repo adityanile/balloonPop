@@ -54,6 +54,11 @@ public class BalloonBehavior : MonoBehaviour
                 {
                     player.bringAstonaut = true;
                 }
+                // For Ballon having serailNumber 3 start the Unicorn PowerUp
+                else if (serialNumber == 3)
+                {
+                    player.bringUnicorn = true;
+                }
 
                 spawner.balloonNumber = serialNumber;
                 spawner.transform.position = transform.position;
